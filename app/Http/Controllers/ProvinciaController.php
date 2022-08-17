@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Client;
 use App\Models\Provincia;
 use Illuminate\Http\Request;
 
@@ -81,5 +82,15 @@ class ProvinciaController extends Controller
     public function destroy(Provincia $provincia)
     {
         //
+    }
+
+    public function getProvincia()
+    {
+        $client = new Client();
+        $res = $client->request('GET', 'https://apis.datos.gob.ar/georef/api/municipios?provincia=22&campos=id,nombre&max=100');
+
+        $provincias = $res->getBody();
+        return response($provincias);
+
     }
 }
